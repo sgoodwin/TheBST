@@ -10,6 +10,27 @@
   </head>
 
   <body>
+    <header>
+      <span>
+        <%= link_to "The BST", root_path %>
+      </span>
+
+      <%- unless logged_in? %>
+      <h4>Sign In</h4>
+
+      <%= form_with url: "/login", method: :post do |f| %>
+
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+        <%= f.label :password %>
+        <%= f.password_field :password %>
+        <%= f.submit  `Login` %>
+
+      <% end %>
+      <% end %>
+
+    </header>
     <%= yield %>
   </body>
 </html>
+

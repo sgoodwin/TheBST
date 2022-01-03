@@ -14,4 +14,8 @@
     <%= number_to_currency listing.price, :unit => listing.currency %>
   </p>
 
+  <p>
+    <strong>Seller:</strong>
+    <%= listing.user.name %>
+  </p>
 </div>
