@@ -1,0 +1,17 @@
+<div id="<%= dom_id listing %>">
+  <p>
+    <strong>Title:</strong>
+    <%= listing.title %>
+  </p>
+
+  <p>
+    <strong>Info:</strong>
+    <%= listing.info %>
+  </p>
+
+  <p>
+    <strong>Price:</strong>
+    <%= number_to_currency listing.price, :unit => listing.currency %>
+  </p>
+
+</div>
