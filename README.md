@@ -1,24 +1,13 @@
-# README
+# TheBST
+A place to safely buy and sell yo-yo's!
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+## Setup
 
-* Ruby version
+You'll need:
 
-* System dependencies
+- ruby
+- rails 7
+- sqlite
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Then you should be able to run the app like a regular rails app with the command: `rails s` from the root of this project.
