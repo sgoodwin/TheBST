@@ -10,10 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_03_134401) do
+ActiveRecord::Schema.define(version: 2022_01_04_132245) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "listing_status", ["active", "cancelled", "sold"]
 
   create_table "currencies", force: :cascade do |t|
     t.string "name"
@@ -28,6 +32,7 @@ ActiveRecord::Schema.define(version: 2022_01_03_134401) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
+    t.enum "status", default: "active", enum_type: "listing_status"
     t.index ["user_id"], name: "index_listings_on_user_id"
   end
 

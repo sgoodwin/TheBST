@@ -15,7 +15,17 @@
   </p>
 
   <p>
+    <strong>Status:</strong>
+    <%= listing.status %>
+  </p>
+
+  <% if listing.user == current_user %>
+    <%= link_to "Edit Listing", edit_listing_path(listing) %>
+  <% else %>
+  <p>
     <strong>Seller:</strong>
     <%= listing.user.name %>
   </p>
+
+  <% end %>
 </div>

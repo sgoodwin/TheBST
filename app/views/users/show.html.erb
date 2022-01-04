@@ -1,10 +1,8 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @user %>
+<p><%= @user.name %>'s listings:</p>
 
-<div>
-  <%= link_to "Edit this user", edit_user_path(@user) %> |
-  <%= link_to "Back to users", users_path %>
+<% @user.listings.each do |listing| %>
+  <%= render listing %>
+<% end %>
 
-  <%= button_to "Destroy this user", @user, method: :delete %>
-</div>

@@ -2,9 +2,8 @@
 
 <%= render "form", listing: @listing %>
 
-<br>
+<% if @listing.status == "active" %>
+<%= button_to "Mark as sold", mark_as_sold_path(@listing) %>
+<%= button_to "Mark as cancelled", mark_as_cancel_path(@listing) %>
+<% end %>
 
-<div>
-  <%= link_to "Show this listing", @listing %> |
-  <%= link_to "Back to listings", listings_path %>
-</div>

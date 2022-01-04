@@ -11,4 +11,7 @@
   <% end %>
 </div>
 
+<% if logged_in? %>
 <%= link_to "New listing", new_listing_path %>
+<% end %>
+

@@ -1,9 +1,23 @@
 class ListingsController < ApplicationController
-  before_action :set_listing, only: %i[ show edit update destroy ]
+  before_action :set_listing, only: %i[ sold cancel show edit update destroy ]
+
+  def sold
+    @listing.status = "sold"
+    @listing.save
+
+    redirect_to listing_url(@listing)
+  end
+
+  def cancel
+    @listing.status = "cancelled"
+    @listing.save
+
+    redirect_to listing_url(@listing)
+  end
 
   # GET /listings or /listings.json
   def index
-    @listings = Listing.all
+    @listings = Listing.active
   end
 
   # GET /listings/1 or /listings/1.json
