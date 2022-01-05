@@ -1,6 +1,15 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ sold cancel show edit update destroy ]
 
+  def search
+    @listings = Listing.search params[:q]
+
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render :index }
+    end
+  end
+
   def sold
     @listing.status = "sold"
     @listing.save

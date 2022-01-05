@@ -9,4 +9,6 @@ class Listing < ApplicationRecord
   validates :status, presence: true
 
   belongs_to :user
+
+  scope :search, ->(query) { where('title LIKE ?', query).or(where('info LIKE ?', query)) }
 end

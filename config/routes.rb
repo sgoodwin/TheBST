@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "listings#index"
+  get "search", to: "listings#search", as: "search"
   post "mark_as_sold/:id", to: "listings#sold", as: "mark_as_sold"
   post "mark_as_cancelled/:id", to: "listings#cancel", as: "mark_as_cancel"
 
