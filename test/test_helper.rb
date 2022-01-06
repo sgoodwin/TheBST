@@ -2,6 +2,15 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 
+require "simplecov"
+
+SimpleCov.command_name "Test: #{rand(1024)}"
+
+SimpleCov.start do
+  track_files '{lib}/**/*.rb'
+  add_filter "/test/"
+end
+
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors)

@@ -68,3 +68,4 @@ yarn-debug.log*
 
 # Mac stuff
 *.keep
+*DS_Store
