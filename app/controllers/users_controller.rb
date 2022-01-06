@@ -60,11 +60,15 @@ class UsersController < ApplicationController
 
   # DELETE /users/1 or /users/1.json
   def destroy
-    @user.destroy
+    unless current_user == @user
+      redirect_to users_url, notice: "You cannot delete other accounts!"
+    else
+      @user.destroy
 
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to users_url, notice: "User was successfully destroyed." }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -76,6 +80,6 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:name, :email, :password)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 end

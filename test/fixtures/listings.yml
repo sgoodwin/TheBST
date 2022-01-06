@@ -5,9 +5,11 @@ one:
   info: MyText
   price: 9.99
   currency: MyString
+  user: one
 
 two:
   title: MyString
   info: MyText
   price: 9.99
   currency: MyString
+  user: two
