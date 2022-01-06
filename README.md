@@ -8,6 +8,6 @@ You'll need:
 
 - ruby
 - rails 7
-- sqlite
+- postgresql
 
 Then you should be able to run the app like a regular rails app with the command: `rails s` from the root of this project.
