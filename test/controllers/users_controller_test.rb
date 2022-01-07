@@ -8,6 +8,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     @user = users(:one)
   end
 
+  test "should allow login" do
+    post login_path, params: { email: "someone.awesome@gmail.com", password: "password" }
+    assert_redirected_to  root_url, status: :success
+  end
+
+  test "should not allow login when it's wrong" do
+    post login_path, params: { email: "someone.awesome@gmail.com", password: "wrongpassword" }
+    assert_redirected_to root_url, notice: "Incorrect login information" 
+  end
+
   test "should get index" do
     get users_url
     assert_response :success
@@ -26,6 +36,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to user_url(User.last)
   end
 
+  test "should not create invalid user" do
+    assert_no_difference("User.count") do
+      post users_url, params: { user: { email: "new.person@gmail.com", name: "New Person", password: "password", password_confirmation: "notmatching" } }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
   test "should show user" do
     get user_url(@user)
     assert_response :success
@@ -40,6 +58,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     login @user
     patch user_url(@user), params: { user: { email: @user.email, name: @user.name } }
     assert_redirected_to user_url(@user)
+  end
+
+  test "should not update invalid user" do
+    login @user
+    patch user_url(@user), params: { user: { email: @user.email, name: nil } }
+    assert_response :unprocessable_entity
   end
 
   test "should not allow destroying other users" do

@@ -9,7 +9,7 @@ one:
 
 two:
   title: MyString
-  info: MyText
+  info: Specific Info Here
   price: 9.99
   currency: MyString
   user: two

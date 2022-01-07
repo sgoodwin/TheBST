@@ -1,5 +1,5 @@
 class ListingsController < ApplicationController
-  before_action :set_listing, only: %i[ sold cancel show edit update destroy ]
+  before_action :set_listing, only: %i[ sold cancel show edit update ]
 
   def search
     @listings = Listing.search params[:q]
@@ -10,18 +10,20 @@ class ListingsController < ApplicationController
     end
   end
 
+  # POST /mark_as_sold/:id
   def sold
     @listing.status = "sold"
     @listing.save
 
-    redirect_to listing_url(@listing)
+    render :show, status: :accepted, listing: @listing
   end
 
+  # POST /mark_as_cancelled/:id
   def cancel
     @listing.status = "cancelled"
     @listing.save
 
-    redirect_to listing_url(@listing)
+    render :show, status: :accepted, listing: @listing
   end
 
   # GET /listings or /listings.json
@@ -41,7 +43,7 @@ class ListingsController < ApplicationController
   # GET /listings/1/edit
   def edit
     unless @listing.user == current_user
-      redirect_to root_url
+      redirect_to listing_url(@listing)
     end
   end
 
@@ -65,7 +67,7 @@ class ListingsController < ApplicationController
   def update
 
     unless @listing.user == current_user
-      redirect_to root_url
+      redirect_to edit_listing_url(@listing)
     else
 
       respond_to do |format|
@@ -76,21 +78,6 @@ class ListingsController < ApplicationController
           format.html { render :edit, status: :unprocessable_entity }
           format.json { render json: @listing.errors, status: :unprocessable_entity }
         end
-      end
-    end
-  end
-
-  # DELETE /listings/1 or /listings/1.json
-  def destroy
-    unless @listing.user == current_user
-      redirect_to root_url
-    else
-
-      @listing.destroy
-
-      respond_to do |format|
-        format.html { redirect_to listings_url, notice: "Listing was successfully destroyed." }
-        format.json { head :no_content }
       end
     end
   end
