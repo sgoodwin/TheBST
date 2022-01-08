@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   post "mark_as_cancelled/:id", to: "listings#cancel", as: "mark_as_cancel"
 
   post "login", to: "users#login"
+  get "logout", to: "users#logout", as: "logout"
 end

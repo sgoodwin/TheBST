@@ -18,6 +18,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url, notice: "Incorrect login information" 
   end
 
+  test "should logout" do
+    login @user
+    get logout_url
+    assert_redirected_to  root_url, status: :success
+  end
+
   test "should get index" do
     get users_url
     assert_response :success
