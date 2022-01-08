@@ -12,6 +12,12 @@ class UsersController < ApplicationController
     end
   end
 
+  # Logout
+  def logout
+    session[:user_id] = nil
+    redirect_to root_path
+  end
+
   # GET /users or /users.json
   def index
     @users = User.all
