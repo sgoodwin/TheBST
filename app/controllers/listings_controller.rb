@@ -1,5 +1,5 @@
 class ListingsController < ApplicationController
-  before_action :set_listing, only: %i[ sold cancel show edit update ]
+  before_action :set_listing, only: %i[ sold cancel active show edit update ]
 
   def search
     @listings = Listing.search params[:q]
@@ -21,6 +21,14 @@ class ListingsController < ApplicationController
   # POST /mark_as_cancelled/:id
   def cancel
     @listing.status = "cancelled"
+    @listing.save
+
+    render :show, status: :accepted, listing: @listing
+  end
+
+  # POST /mark_as_active/:id
+  def active
+    @listing.status = "active"
     @listing.save
 
     render :show, status: :accepted, listing: @listing

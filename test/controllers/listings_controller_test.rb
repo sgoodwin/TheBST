@@ -91,4 +91,12 @@ class ListingsControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal 1, Listing.cancelled.count
   end
+
+  test "mark a listing as active" do
+    login users(:one)
+    post mark_as_active_url(listings(:two))
+    assert_response :success
+
+    assert_equal 2, Listing.active.count
+  end
 end
