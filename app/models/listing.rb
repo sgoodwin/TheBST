@@ -11,4 +11,10 @@ class Listing < ApplicationRecord
   belongs_to :user
 
   scope :search, ->(query) { where('title LIKE ?', query).or(where('info LIKE ?', query)) }
+
+  resourcify
+
+  def allowed?(user)
+    user == self.user || user.has_role?(:admin)
+  end
 end

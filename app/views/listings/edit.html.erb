@@ -3,10 +3,10 @@
 <%= render "form", listing: @listing %>
 
 <% if @listing.status == "active" %>
-<%= button_to "Mark as sold", mark_as_sold_path(@listing) %>
-<%= button_to "Mark as cancelled", mark_as_cancel_path(@listing) %>
+  <%= button_to "Mark as sold", mark_path(@listing), params: { status: :sold } %>
+  <%= button_to "Mark as cancelled", mark_path(@listing), params: { status: :cancelled } %>
 <% end %>
 <% if @listing.status == "cancelled" %>
-<%= button_to "Mark as active again", mark_as_active_path(@listing) %>
+  <%= button_to "Mark as active again", mark_path(@listing), params: { status: :active } %>
 <% end %>
 

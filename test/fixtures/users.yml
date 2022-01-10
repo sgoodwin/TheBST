@@ -9,3 +9,8 @@ two:
   name: Someone Else
   email: someone.else@gmail.com
   password_digest: <%= BCrypt::Password.create("password", cost: 5) %>
+
+admin:
+  name: Admin Person
+  email: admin@thebst.com
+  password_digest: <%= BCrypt::Password.create("password", cost: 5) %>

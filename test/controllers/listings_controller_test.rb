@@ -6,6 +6,7 @@ class ListingsControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @listing = listings(:one)
+    users(:admin).add_role :admin
   end
 
   test "should get index" do
@@ -58,6 +59,12 @@ class ListingsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to listing_url(@listing)
   end
 
+  test "admins should get edit for other listings" do
+    login users(:admin)
+    get edit_listing_url(@listing)
+    assert_response :success
+  end
+
   test "should update listing" do
     login users(:one)
     patch listing_url(@listing), params: { listing: { currency: @listing.currency, info: @listing.info, price: @listing.price, title: @listing.title } }
@@ -72,31 +79,53 @@ class ListingsControllerTest < ActionDispatch::IntegrationTest
 
   test "should not update other people's listings" do
     login users(:two)
-    patch listing_url(@listing), params: { listing: { currency: @listing.currency, info: @listing.info, price: -10, title: @listing.title } }
+    patch listing_url(@listing), params: { listing: { currency: @listing.currency, info: @listing.info, price: 10, title: @listing.title } }
     assert_redirected_to edit_listing_url(@listing)
+  end
+
+  test "admins should update other people's listings" do
+    login users(:admin)
+    patch listing_url(@listing), params: { listing: { currency: @listing.currency, info: @listing.info, price: 10, title: @listing.title } }
+    assert_redirected_to listing_url(@listing)
   end
 
   test "mark a listing as sold" do
     login users(:one)
-    post mark_as_sold_url(@listing)
+    assert_difference("Listing.sold.count") do
+      post mark_url(listings(:two)), params: { status: :sold }
+    end
     assert_response :success
-
-    assert_equal 1, Listing.sold.count
   end
 
   test "mark a listing as cancelled" do
     login users(:one)
-    post mark_as_cancel_url(@listing)
+    assert_difference("Listing.cancelled.count") do
+      post mark_url(@listing), params: { status: :cancelled }
+    end
     assert_response :success
-
-    assert_equal 1, Listing.cancelled.count
   end
 
   test "mark a listing as active" do
     login users(:one)
-    post mark_as_active_url(listings(:two))
+    assert_difference("Listing.active.count") do
+      post mark_url(listings(:sold)), params: { status: :active }
+    end
     assert_response :success
+  end
 
-    assert_equal 2, Listing.active.count
+  test "other users can't mark listings" do
+    login users(:two)
+    assert_no_difference("Listing.active.count") do
+      post mark_url(@listing), params: { status: :sold }
+    end
+    assert_redirected_to listing_url(@listing)
+  end
+
+  test "admins can mark listings" do
+    login users(:admin)
+    assert_difference("Listing.sold.count") do
+      post mark_url(listings(:two)), params: { status: :sold }
+    end
+    assert_response :success
   end
 end

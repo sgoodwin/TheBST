@@ -1,5 +1,5 @@
 class ListingsController < ApplicationController
-  before_action :set_listing, only: %i[ sold cancel active show edit update ]
+  before_action :set_listing, only: %i[ mark show edit update ]
 
   def search
     @listings = Listing.search params[:q]
@@ -10,28 +10,23 @@ class ListingsController < ApplicationController
     end
   end
 
-  # POST /mark_as_sold/:id
-  def sold
-    @listing.status = "sold"
-    @listing.save
+  # POST /mark/:id
+  def mark
+    unless @listing.allowed? current_user
+      redirect_to listing_url(@listing)
+    else
+      @listing.status = params[:status]
 
-    render :show, status: :accepted, listing: @listing
-  end
-
-  # POST /mark_as_cancelled/:id
-  def cancel
-    @listing.status = "cancelled"
-    @listing.save
-
-    render :show, status: :accepted, listing: @listing
-  end
-
-  # POST /mark_as_active/:id
-  def active
-    @listing.status = "active"
-    @listing.save
-
-    render :show, status: :accepted, listing: @listing
+      respond_to do |format|
+        if @listing.save
+          format.html { render :show, status: :accepted, listing: @listing }
+          format.json { render :show, status: :created, location: @listing }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @listing.errors, status: :unprocessable_entity }
+        end
+      end
+    end
   end
 
   # GET /listings or /listings.json
@@ -50,7 +45,7 @@ class ListingsController < ApplicationController
 
   # GET /listings/1/edit
   def edit
-    unless @listing.user == current_user
+    unless @listing.allowed? current_user
       redirect_to listing_url(@listing)
     end
   end
@@ -73,8 +68,7 @@ class ListingsController < ApplicationController
 
   # PATCH/PUT /listings/1 or /listings/1.json
   def update
-
-    unless @listing.user == current_user
+    unless @listing.allowed? current_user
       redirect_to edit_listing_url(@listing)
     else
 

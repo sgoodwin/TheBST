@@ -6,10 +6,20 @@ one:
   price: 9.99
   currency: MyString
   user: one
+  status: active
+
+sold:
+  title: MyString
+  info: Specific Info Here
+  price: 9.99
+  currency: MyString
+  user: one
+  status: sold
 
 two:
   title: MyString
   info: Specific Info Here
   price: 9.99
   currency: MyString
-  user: two
+  user: one
+  status: active
