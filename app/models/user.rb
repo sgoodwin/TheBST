@@ -7,6 +7,10 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true
 
+  def admin?
+    has_role? :admin
+  end
+
   def banned?
     !bans.where('end_at > ?', Date.today).empty?
   end

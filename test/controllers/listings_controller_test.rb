@@ -7,6 +7,7 @@ class ListingsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @listing = listings(:one)
     users(:admin).add_role :admin
+    users(:banned).ban!(1.week.from_now, "They trolled")
   end
 
   test "should get index" do
@@ -40,6 +41,15 @@ class ListingsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :unprocessable_entity
+  end
+
+  test "banned users should not create listings" do
+    login users(:banned)
+    assert_no_difference("Listing.count") do
+      post listings_url, params: { listing: { currency: @listing.currency, info: @listing.info, price: 11, title: @listing.title } }
+    end
+
+    assert_redirected_to root_url
   end
 
   test "should show listing" do

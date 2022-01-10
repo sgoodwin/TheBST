@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :set_user, only: %i[ ban show edit update destroy ]
 
   # Login
   def login
@@ -16,6 +16,16 @@ class UsersController < ApplicationController
   def logout
     session[:user_id] = nil
     redirect_to root_path
+  end
+
+  def ban
+    if current_user && current_user.admin?
+      @user.ban!(params[:end_at], params[:reason])
+
+      render :show
+    else
+      redirect_to root_path
+    end
   end
 
   # GET /users or /users.json

@@ -10,4 +10,5 @@ Rails.application.routes.draw do
 
   post "login", to: "users#login"
   get "logout", to: "users#logout", as: "logout"
+  post "ban/:id", to: "users#ban", as: "ban"
 end

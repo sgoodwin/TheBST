@@ -6,6 +6,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @user = users(:one)
+    users(:admin).add_role :admin
+    users(:banned).ban!(1.week.from_now, "They trolled")
   end
 
   test "should allow login" do
@@ -87,5 +89,23 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to users_url
+  end
+
+  test "admins should ban user" do
+    login users(:admin)
+    assert_difference("Ban.count") do
+      post ban_url(@user), params: { end_at: 1.week.from_now, reason: "User was trolling" }
+    end
+
+    assert @user.banned?
+  end
+
+  test "non-admins should not ban user" do
+    login users(:one)
+    assert_no_difference("Ban.count") do
+      post ban_url(@user), params: { end_at: 1.week.from_now, reason: "User was trolling" }
+    end
+
+    assert !@user.banned?
   end
 end

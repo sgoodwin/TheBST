@@ -6,3 +6,23 @@
   <%= render listing %>
 <% end %>
 
+<% if current_user && current_user.admin? %>
+  <% if @user.banned? %>
+    <p> This user is banned: <%= @user.bans.last.reason %></p>
+  <% else %>
+    <div class="ban banner">
+      <p>Ban This User</p>
+      <%= form_with url: ban_url(@user) do |form| %>
+        <%= form.label :reason %><br/>
+        <%= form.text_area :reason %><br/>
+
+        <%= form.label :end_at %><br/>
+        <%= form.date_field :end_at %>
+
+        <%= form.hidden_field :user_id, value: @user.id %>
+
+        <%= form.submit "Ban" %>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

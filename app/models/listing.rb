@@ -15,6 +15,6 @@ class Listing < ApplicationRecord
   resourcify
 
   def allowed?(user)
-    user == self.user || user.has_role?(:admin)
+    user.admin? || user == self.user
   end
 end
