@@ -15,12 +15,14 @@ class ListingsController < ApplicationController
     unless @listing.allowed? current_user
       redirect_to listing_url(@listing)
     else
-      @listing.status = params[:status]
 
+      status = params[:status]
       respond_to do |format|
-        if @listing.save
+        if Listing.statuses.include?(status) and
+            @listing.status = status and
+            @listing.save
           format.html { render :show, status: :accepted, listing: @listing }
-          format.json { render :show, status: :created, location: @listing }
+          format.json { render :show, status: :accepted, location: @listing }
         else
           format.html { render :new, status: :unprocessable_entity }
           format.json { render json: @listing.errors, status: :unprocessable_entity }

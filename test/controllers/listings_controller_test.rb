@@ -113,6 +113,14 @@ class ListingsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "mark a listing with an invalid status" do
+    login users(:one)
+    assert_no_difference("Listing.active.count") do
+      post mark_url(listings(:sold)), params: { status: :poop }
+    end
+    assert_response :unprocessable_entity
+  end
+
   test "other users can't mark listings" do
     login users(:two)
     assert_no_difference("Listing.active.count") do
