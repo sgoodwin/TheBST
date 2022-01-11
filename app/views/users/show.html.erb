@@ -2,9 +2,11 @@
 
 <p><%= @user.name %>'s listings:</p>
 
+<ul>
 <% @user.listings.each do |listing| %>
-  <%= render listing %>
+  <li><%= render listing %></li>
 <% end %>
+</ul>
 
 <% if current_user && current_user.admin? %>
   <% if @user.banned? %>
