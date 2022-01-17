@@ -19,3 +19,8 @@ banned:
   name: Banned Person
   email: imatroll@aol.com
   password_digest: <%= BCrypt::Password.create("password", cost: 5) %>
+
+another:
+  name: Yet Another Person
+  email: notbanned@gmail.com
+  password_digest: <%= BCrypt::Password.create("password", cost: 5) %>

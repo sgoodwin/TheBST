@@ -1,0 +1,17 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @conversation %>
+
+<%= form_with url: new_message_url(@conversation), method: :post do |f| %>
+
+  <%= f.label :text %>
+  <%= f.text_field :text %>
+  <%= f.submit "Send" %>
+
+<% end %>
+
+<div>
+  <%= link_to "Back to conversations", conversations_path %>
+</div>
+
+

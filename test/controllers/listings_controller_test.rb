@@ -21,6 +21,7 @@ class ListingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get new" do
+    login users(:one)
     get new_listing_url
     assert_response :success
   end

@@ -1,0 +1,5 @@
+<div id="<%= dom_id conversation %>">
+  <% @conversation.messages.each do |m| %>
+    <%= render m %>
+  <% end %>
+</div>

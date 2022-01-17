@@ -3,6 +3,8 @@ class User < ApplicationRecord
   has_secure_password
   has_many :listings, -> { order('status ASC') }
   has_many :bans, -> { order('end_at DESC') }
+  has_many :messages
+  has_and_belongs_to_many :conversations
 
   validates :name, presence: true
   validates :email, presence: true

@@ -1,5 +1,10 @@
 <div id="<%= dom_id user %>">
   <p>
     <%= link_to user.name, url_for(user) %>
+
+    <% if user != current_user %>
+    <%= button_to "Send message", conversations_url, method: :post, params: { user_id: user.id } %>
+    <% end %>
+
   </p>
 </div>

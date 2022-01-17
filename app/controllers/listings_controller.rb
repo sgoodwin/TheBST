@@ -1,6 +1,6 @@
 class ListingsController < ApplicationController
   before_action :set_listing, only: %i[ mark show edit update ]
-  before_action :not_if_banned
+  before_action :not_if_banned, except: %i[ index show search ]
 
   def search
     @listings = Listing.search params[:q]
@@ -98,9 +98,4 @@ class ListingsController < ApplicationController
     params.require(:listing).permit(:title, :info, :price, :currency)
   end
 
-  def not_if_banned
-    if current_user && current_user.banned?
-      redirect_to root_url, alert: "You are banned until #{current_user.bans.last.end_at}"
-    end
-  end
 end

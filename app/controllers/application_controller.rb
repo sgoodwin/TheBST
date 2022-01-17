@@ -10,4 +10,12 @@ class ApplicationController < ActionController::Base
   def logged_in?
     !current_user.nil?
   end
+
+  def not_if_banned
+    if !logged_in? 
+      redirect_to root_url
+    elsif current_user && current_user.banned?
+      redirect_to root_url, alert: "You are banned until #{current_user.bans.last.end_at}"
+    end
+  end
 end
