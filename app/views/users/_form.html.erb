@@ -27,6 +27,11 @@
   </div>
 
   <div>
+    <%= form.label :region, style: "display: block" %>
+    <%= form.select :region_id, @regions.collect { |r| [r.name, r.id] } %>
+  </div>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

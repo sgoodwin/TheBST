@@ -10,3 +10,8 @@
 Currency.create(name: "USD", symbol: "$")
 Currency.create(name: "EUR", symbol: "€")
 Currency.create(name: "JPY", symbol: "¥")
+
+Region.create(name: "United States")
+Region.create(name: "Canada")
+Region.create(name: "Europe")
+Region.create(name: "Japan")

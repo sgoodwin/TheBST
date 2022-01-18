@@ -4,23 +4,28 @@ one:
   name: Someone Awesome
   email: someone.awesome@gmail.com
   password_digest: <%= BCrypt::Password.create("password", cost: 5) %>
+  region: us
 
 two:
   name: Someone Else
   email: someone.else@gmail.com
   password_digest: <%= BCrypt::Password.create("password", cost: 5) %>
+  region: us
 
 admin:
   name: Admin Person
   email: admin@thebst.com
   password_digest: <%= BCrypt::Password.create("password", cost: 5) %>
+  region: us
 
 banned:
   name: Banned Person
   email: imatroll@aol.com
   password_digest: <%= BCrypt::Password.create("password", cost: 5) %>
+  region: us
 
 another:
   name: Yet Another Person
   email: notbanned@gmail.com
   password_digest: <%= BCrypt::Password.create("password", cost: 5) %>
+  region: us

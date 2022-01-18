@@ -40,15 +40,18 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+    @regions = Region.all
   end
 
   # GET /users/1/edit
   def edit
+    @regions = Region.all
   end
 
   # POST /users or /users.json
   def create
     @user = User.new(user_params)
+    @regions = Region.all
 
     respond_to do |format|
       if @user.save
@@ -63,6 +66,8 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1 or /users/1.json
   def update
+    @regions = Region.all
+
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
@@ -96,6 +101,6 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :region_id)
   end
 end
